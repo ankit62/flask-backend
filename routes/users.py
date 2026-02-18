@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from db import get_db_connection
+from db.connection import connect_to_db
 import mysql.connector
 
 users_bp = Blueprint("users", __name__)
@@ -13,7 +13,7 @@ def get_users():
     conn = None
     cursor = None
     try:
-        conn = get_db_connection()
+        conn = connect_to_db()
         print("Connecting to mysql")
         cursor = conn.cursor(dictionary=True)
         cursor.execute("select * from users")
@@ -33,7 +33,7 @@ def create_user():
     conn = None
     cursor = None
     try:
-        conn = get_db_connection()
+        conn = connect_to_db()
         cursor = conn.cursor()
         cursor.execute("insert into users (name,email) values (%s, %s)",
                     (data["name"], data["email"]))
@@ -63,7 +63,7 @@ def update_user(user_id):
     conn = None
     cursor = None
     try:
-        conn = get_db_connection()
+        conn = connect_to_db()
         cursor = conn.cursor()
         cursor.execute(
             "UPDATE users SET name=%s, email=%s where id=%s",
@@ -84,7 +84,7 @@ def delete_user(user_id):
     conn = None
     cursor = None
     try:
-        conn = get_db_connection()
+        conn = connect_to_db()
         cursor = conn.cursor()
         cursor.execute(
             "DELETE from users where id=%s", (user_id,)

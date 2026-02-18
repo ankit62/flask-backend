@@ -5,9 +5,8 @@ services:
     image: mysql:8.0
     container_name: userdb-container
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: user_db
+    env_file:
+      - .env
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
@@ -21,11 +20,8 @@ services:
       - "5000:5000"
     depends_on:
       - mysql
-    environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: admin
-      DB_NAME: user_db
+    env_file:
+      - .env
 
 volumes:
   mysql_data:
