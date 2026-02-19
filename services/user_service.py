@@ -1,6 +1,4 @@
 from db.connection import connect_to_db
-import mysql.connector
-
 
 def get_all_users():
     db = connect_to_db()
@@ -25,7 +23,7 @@ def create_user(name, email):
         )
         db.commit()
         return cursor.lastrowid
-    except mysql.connector.Error as err:
+    except Exception as err:
         if err.errno == 1062:
             raise ValueError("Email already exists")
         raise err
