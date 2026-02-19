@@ -1,6 +1,7 @@
-from db.connection import db
+from db.connection import connect_to_db
 
-def init_db():
+def init_db():    
+    db = connect_to_db()
     cursor = db.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
@@ -12,4 +13,5 @@ def init_db():
     
     db.commit()
     cursor.close()
+    db.close()
     print("Tables initialized")
